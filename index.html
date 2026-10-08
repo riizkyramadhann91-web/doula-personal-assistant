@@ -1,22 +1,32 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Doula | Asisten Pribadi AI</title>
 <style>
-:root{--bg:#0b0d12;--card:#141821;--card2:#1a1f2b;--line:#252b3a;--text:#e8eaf0;--muted:#9aa3b5;--accent:#7c9cff;--accent2:#5eead4;--red:#ff7a85;--green:#4ade80}
+:root{--bg:#0b0d12;--alt:#0e1118;--card:#141821;--card2:#1a1f2b;--line:#252b3a;--text:#e8eaf0;--li:#cdd3e0;--muted:#9aa3b5;--accent:#7c9cff;--accent2:#5eead4;--red:#ff7a85;--green:#4ade80;--warn:#ffd479;--on:#0b0d12;--hero:#1a2240;--hover:#202638;--glow:rgba(124,156,255,.4);color-scheme:dark}
+[data-theme=light]{--bg:#f5f7fc;--alt:#eaeef8;--card:#fff;--card2:#eef1f8;--line:#d9dfec;--text:#161a24;--li:#363e50;--muted:#5b6579;--accent:#4f6bff;--accent2:#0d9488;--red:#d9363e;--green:#15803d;--warn:#b45309;--on:#fff;--hero:#dfe6ff;--hover:#e3e8f6;--glow:rgba(79,107,255,.35);color-scheme:light}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
 section{padding:64px 0}
 h2{font-size:clamp(1.5rem,3.5vw,2rem);text-align:center;letter-spacing:-.02em;margin-bottom:8px}
 .sub{text-align:center;color:var(--muted);margin-bottom:36px}
 
+/* TOGGLE BAR */
+.bar{position:fixed;top:14px;right:14px;z-index:20;display:flex;gap:8px;align-items:center}
+.seg,.bar>button{background:var(--card);border:1px solid var(--line);border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.18)}
+.seg{display:flex;padding:3px}
+.seg button{border:0;background:none;color:var(--muted);font:inherit;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:999px;cursor:pointer}
+.seg button.on{background:var(--accent);color:var(--on)}
+.bar>button{width:38px;height:38px;font-size:1.05rem;cursor:pointer;color:var(--text)}
+.bar button:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+
 /* HERO */
-.hero{text-align:center;padding:88px 0 56px;background:radial-gradient(ellipse at 50% 0,#1a2240 0,transparent 65%)}
-.avatar{width:92px;height:92px;margin:0 auto 20px;border-radius:26px;display:grid;place-items:center;font-size:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 48px rgba(124,156,255,.35)}
+.hero{text-align:center;padding:88px 0 56px;background:radial-gradient(ellipse at 50% 0,var(--hero) 0,transparent 65%)}
+.avatar{width:92px;height:92px;margin:0 auto 20px;border-radius:26px;display:grid;place-items:center;font-size:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 48px var(--glow)}
 .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--line);background:var(--card);border-radius:999px;font-size:.85rem;color:var(--green);margin-bottom:20px}
 .badge b{font-weight:600;animation:glow 2s infinite}
 @keyframes glow{0%,100%{opacity:1}50%{opacity:.55}}
@@ -24,8 +34,8 @@ h2{font-size:clamp(1.5rem,3.5vw,2rem);text-align:center;letter-spacing:-.02em;ma
 .hero h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{max-width:640px;margin:0 auto 28px;color:var(--muted);font-size:1.1rem}
 .btn{display:inline-block;padding:13px 26px;border-radius:12px;font-weight:600;text-decoration:none;transition:transform .2s,box-shadow .2s}
-.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0b0d12}
-.btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,156,255,.4)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--on)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--glow)}
 .btn.ghost{border:1px solid var(--line);color:var(--text);margin-left:10px}
 .btn.ghost:hover{border-color:var(--accent)}
 
@@ -33,14 +43,15 @@ h2{font-size:clamp(1.5rem,3.5vw,2rem);text-align:center;letter-spacing:-.02em;ma
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px}
 .panel h3{font-size:1.15rem;margin-bottom:16px}
-.chaos{border-color:rgba(255,122,133,.3)}.chaos h3{color:var(--red)}
-.solve{border-color:rgba(94,234,212,.3)}.solve h3{color:var(--accent2)}
+.chaos{border-color:color-mix(in srgb,var(--red) 35%,transparent)}.chaos h3{color:var(--red)}
+.solve{border-color:color-mix(in srgb,var(--accent2) 35%,transparent)}.solve h3{color:var(--accent2)}
 .panel ul{list-style:none;display:grid;gap:12px}
-.panel li{padding-left:28px;position:relative;color:#cdd3e0;font-size:.95rem}
+.panel li{padding-left:28px;position:relative;color:var(--li);font-size:.95rem}
 .chaos li::before{content:"✕";position:absolute;left:0;color:var(--red);font-weight:700}
 .solve li::before{content:"✓";position:absolute;left:0;color:var(--accent2);font-weight:700}
 
 /* CAPABILITIES */
+.alt{background:var(--alt)}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .cap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;transition:transform .25s,border-color .25s}
 .cap:hover{transform:translateY(-4px);border-color:var(--accent)}
@@ -55,10 +66,10 @@ h2{font-size:clamp(1.5rem,3.5vw,2rem);text-align:center;letter-spacing:-.02em;ma
 .chat-head small{margin-left:auto;color:var(--muted);font-weight:400}
 .msgs{height:340px;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
 .msg{max-width:85%;padding:11px 15px;border-radius:16px;font-size:.93rem;animation:pop .3s ease}
-.msg.user{align-self:flex-end;background:var(--accent);color:#0b0d12;border-bottom-right-radius:4px}
+.msg.user{align-self:flex-end;background:var(--accent);color:var(--on);border-bottom-right-radius:4px}
 .msg.bot{align-self:flex-start;background:var(--card2);border:1px solid var(--line);border-bottom-left-radius:4px}
 .msg.bot b{color:var(--accent2)}
-.msg.bot .hitl{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);color:#ffd479;font-size:.85rem}
+.msg.bot .hitl{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);color:var(--warn);font-size:.85rem}
 .hint{color:var(--muted);text-align:center;margin:auto;font-size:.9rem}
 .typing{display:flex;gap:5px;padding:14px 16px}
 .typing span{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
@@ -67,18 +78,18 @@ h2{font-size:clamp(1.5rem,3.5vw,2rem);text-align:center;letter-spacing:-.02em;ma
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .scen{display:flex;flex-wrap:wrap;gap:10px;padding:14px 18px;border-top:1px solid var(--line)}
 .scen button{flex:1 1 180px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--text);font:inherit;font-size:.88rem;cursor:pointer;transition:border-color .2s,background .2s}
-.scen button:hover:not(:disabled){border-color:var(--accent);background:#202638}
+.scen button:hover:not(:disabled){border-color:var(--accent);background:var(--hover)}
 .scen button:disabled{opacity:.5;cursor:not-allowed}
 
 /* FOOTER */
-.cta{text-align:center;background:radial-gradient(ellipse at 50% 100%,#1a2240 0,transparent 70%)}
-.cta p{color:var(--muted);max-width:520px;margin:0 auto 24px}
+.cta{text-align:center;background:radial-gradient(ellipse at 50% 100%,var(--hero) 0,transparent 70%)}
+.cta .sub{margin-bottom:24px}
 footer{border-top:1px solid var(--line);padding:22px 0;text-align:center;color:var(--muted);font-size:.85rem}
 
 @media(max-width:760px){
   .grid2,.grid3{grid-template-columns:1fr}
   section{padding:48px 0}
-  .hero{padding:64px 0 40px}
+  .hero{padding:80px 0 40px}
   .btn.ghost{margin:10px 0 0}
   .msgs{height:320px}
 }
@@ -86,39 +97,47 @@ footer{border-top:1px solid var(--line);padding:22px 0;text-align:center;color:v
 </head>
 <body>
 
+<!-- TOGGLES: bahasa & tema -->
+<div class="bar">
+  <div class="seg" role="group" aria-label="Language / Bahasa">
+    <button data-l="id">ID</button><button data-l="en">EN</button>
+  </div>
+  <button id="th" type="button"></button>
+</div>
+
 <!-- 1. HERO -->
 <header class="hero">
   <div class="wrap">
     <div class="avatar">🤖</div>
     <div class="badge"><b>🟢 Status: Active &amp; Ready 24/7</b></div>
-    <h1>Kenalan dengan <span>Doula</span></h1>
-    <p>Asisten pribadi AI yang mencatat tugas, mengatur jadwal, dan menjaga prioritasmu lewat Notion dan Google Calendar, supaya tidak ada yang terlewat.</p>
-    <a class="btn primary" href="#demo">Coba Simulasi</a>
-    <a class="btn ghost" href="#kontak">Hubungi Saya</a>
+    <h1 data-i18n="h1"></h1>
+    <p data-i18n="tag"></p>
+    <a class="btn primary" href="#demo" data-i18n="try"></a>
+    <a class="btn ghost" href="#kontak" data-i18n="contact"></a>
   </div>
 </header>
 
 <!-- 2. PROBLEM & SOLUTION -->
 <section>
   <div class="wrap">
-    <h2>Dari Kacau ke Terkendali</h2>
-    <p class="sub">Apa yang sering terjadi tanpa Doula, dan bagaimana Doula menyelesaikannya.</p>
+    <h2 data-i18n="psT"></h2>
+    <p class="sub" data-i18n="psS"></p>
     <div class="grid2">
       <div class="panel chaos">
         <h3>😵 The Chaos</h3>
         <ul>
-          <li>Permintaan dan tugas dadakan hanya diingat di kepala atau tercecer di chat, sehingga tidak pernah masuk ke tracker.</li>
-          <li>Jadwal bentrok dan prioritas sulit ditentukan saat rapat dadakan dan permintaan baru datang bersamaan.</li>
-          <li>Deadline meleset karena tidak ada pengingat, evaluasi mingguan, atau gambaran beban kerja yang jelas.</li>
+          <li data-i18n="c1"></li>
+          <li data-i18n="c2"></li>
+          <li data-i18n="c3"></li>
         </ul>
       </div>
       <div class="panel solve">
         <h3>✨ The Solution</h3>
         <ul>
-          <li>Mencatat tugas dan pikiran acak ke Notion secara terstruktur: Task Tracker, Catatan &amp; Pikiran, Weekly Review.</li>
-          <li>Mengecek duplikasi dan bentrok jadwal sebelum menulis apa pun.</li>
-          <li>Menentukan prioritas dengan matriks Eisenhower dan menyusun time-block harian sesuai jam kerja.</li>
-          <li>Rutinitas harian: ringkasan pagi, status sore, review mingguan, plus pengingat deadline 48 jam.</li>
+          <li data-i18n="s1"></li>
+          <li data-i18n="s2"></li>
+          <li data-i18n="s3"></li>
+          <li data-i18n="s4"></li>
         </ul>
       </div>
     </div>
@@ -126,26 +145,14 @@ footer{border-top:1px solid var(--line);padding:22px 0;text-align:center;color:v
 </section>
 
 <!-- 3. CORE CAPABILITIES -->
-<section style="background:#0e1118">
+<section class="alt">
   <div class="wrap">
     <h2>Core Capabilities</h2>
-    <p class="sub">Tiga kemampuan utama yang bekerja setiap hari.</p>
+    <p class="sub" data-i18n="capS"></p>
     <div class="grid3">
-      <div class="cap">
-        <div class="ic">📝</div>
-        <h3>Notion Task Tracker</h3>
-        <p>Menyimpan tugas, ide acak, dan evaluasi mingguan ke Notion dengan struktur rapi, dan mengecek duplikasi sebelum mencatat.</p>
-      </div>
-      <div class="cap">
-        <div class="ic">📅</div>
-        <h3>Google Calendar Time-Block</h3>
-        <p>Mendeteksi jadwal bentrok, memakai matriks Eisenhower, lalu menyusun time-block harian sesuai jam kerjamu.</p>
-      </div>
-      <div class="cap">
-        <div class="ic">🛡️</div>
-        <h3>Human-in-the-Loop</h3>
-        <p>Selalu minta konfirmasi sebelum mengubah status tugas, menghapus data, atau mengubah event. Keputusan akhir tetap di tanganmu.</p>
-      </div>
+      <div class="cap"><div class="ic">📝</div><h3 data-i18n="k1t"></h3><p data-i18n="k1p"></p></div>
+      <div class="cap"><div class="ic">📅</div><h3 data-i18n="k2t"></h3><p data-i18n="k2p"></p></div>
+      <div class="cap"><div class="ic">🛡️</div><h3>Human-in-the-Loop</h3><p data-i18n="k3p"></p></div>
     </div>
   </div>
 </section>
@@ -153,15 +160,15 @@ footer{border-top:1px solid var(--line);padding:22px 0;text-align:center;color:v
 <!-- 4. INTERACTIVE SIMULATION -->
 <section id="demo">
   <div class="wrap">
-    <h2>Lihat Doula Beraksi</h2>
-    <p class="sub">Pilih satu skenario dan lihat bagaimana Doula merespons.</p>
+    <h2 data-i18n="demoT"></h2>
+    <p class="sub" data-i18n="demoS"></p>
     <div class="chat">
-      <div class="chat-head"><i></i> Doula <small>Simulasi</small></div>
-      <div class="msgs" id="msgs"><div class="hint" id="hint">👇 Klik salah satu skenario di bawah untuk memulai.</div></div>
+      <div class="chat-head"><i></i> Doula <small data-i18n="simL"></small></div>
+      <div class="msgs" id="msgs"></div>
       <div class="scen">
-        <button data-s="0">📥 Tugas dadakan</button>
-        <button data-s="1">⚠️ Jadwal bentrok</button>
-        <button data-s="2">☀️ Ringkasan pagi</button>
+        <button data-s="0" data-i18n="b0"></button>
+        <button data-s="1" data-i18n="b1"></button>
+        <button data-s="2" data-i18n="b2"></button>
       </div>
     </div>
   </div>
@@ -170,34 +177,94 @@ footer{border-top:1px solid var(--line);padding:22px 0;text-align:center;color:v
 <!-- 5. FOOTER & CTA -->
 <section class="cta" id="kontak">
   <div class="wrap">
-    <h2>Tertarik Membangun Karyawan Digital Sendiri?</h2>
-    <p class="sub" style="margin-bottom:12px">Lihat proyek-proyek saya atau ajak diskusi lewat GitHub.</p>
-    <a class="btn primary" href="https://github.com/riizkyramadhann91-web" target="_blank" rel="noopener">Kunjungi GitHub Saya →</a>
+    <h2 data-i18n="ctaT"></h2>
+    <p class="sub" data-i18n="ctaS"></p>
+    <a class="btn primary" href="https://github.com/riizkyramadhann91-web" target="_blank" rel="noopener" data-i18n="ctaB"></a>
   </div>
 </section>
 
 <footer>Built with AI · AI Builder Bootcamp Showcase</footer>
 
 <script>
-const scenarios=[
-  {user:"Tolong catat: besok jam 14.00 siapkan materi review pipeline untuk atasan.",
-   bot:["Saya cek dulu Task Tracker, belum ada tugas serupa, jadi tidak ada duplikasi. ✅",
-        "Saya cek juga Google Calendar: besok jam 14.00 kosong, tidak ada bentrok.",
-        "<b>Draf tugas:</b> Siapkan materi review pipeline<br>Deadline: besok 14.00 · Prioritas: <b>Penting &amp; Mendesak</b>"+
-        "<span class='hitl'>🛡️ Human-in-the-Loop: Simpan ke Notion dan buat time-block 10.00-12.00? Balas <b>ya</b> untuk lanjut.</span>"]},
-  {user:"Ada rapat dadakan jam 11.00, padahal saya sudah ada agenda lain.",
-   bot:["Saya periksa Google Calendar: rapat dadakan <b>bentrok</b> dengan blok \"Review Data Quality\" jam 11.00-12.00. ⚠️",
-        "<b>Usulan:</b> pindahkan Review Data Quality ke 14.00-15.00 (kosong). Jam makan siang 12.00-13.00 tetap aman.<br>Prioritas Review Data Quality: Penting, Tidak Mendesak."+
-        "<span class='hitl'>🛡️ Human-in-the-Loop: Saya tidak akan mengubah event apa pun sebelum kamu setuju. Pindahkan sekarang?</span>"]},
-  {user:"pagi",
-   bot:["Selamat pagi! ☀️ Ini ringkasan harimu:",
-        "<b>3 prioritas hari ini</b><br>1. Siapkan materi review pipeline (deadline 14.00)<br>2. Follow-up stakeholder<br>3. Review dokumen teknis<br><br>"+
-        "<b>Time-block:</b> 10.00-12.00 fokus materi · 13.00-15.00 rapat · 15.00-17.00 follow-up<br>"+
-        "<b>⏰ Deadline 48 jam:</b> 1 tugas mendekati batas waktu."+
-        "<span class='hitl'>🛡️ Human-in-the-Loop: Mau saya buatkan time-block ini di Calendar?</span>"]}
-];
-const box=document.getElementById("msgs"),btns=document.querySelectorAll(".scen button");
+const H=t=>`<span class='hitl'>🛡️ Human-in-the-Loop: ${t}</span>`;
+const T={
+id:{title:"Doula | Asisten Pribadi AI",h1:"Kenalan dengan <span>Doula</span>",
+ tag:"Asisten pribadi AI yang mencatat tugas, mengatur jadwal, dan menjaga prioritasmu lewat Notion dan Google Calendar, supaya tidak ada yang terlewat.",
+ try:"Coba Simulasi",contact:"Hubungi Saya",psT:"Dari Kacau ke Terkendali",psS:"Apa yang sering terjadi tanpa Doula, dan bagaimana Doula menyelesaikannya.",
+ c1:"Permintaan dan tugas dadakan hanya diingat di kepala atau tercecer di chat, sehingga tidak pernah masuk ke tracker.",
+ c2:"Jadwal bentrok dan prioritas sulit ditentukan saat rapat dadakan dan permintaan baru datang bersamaan.",
+ c3:"Deadline meleset karena tidak ada pengingat, evaluasi mingguan, atau gambaran beban kerja yang jelas.",
+ s1:"Mencatat tugas dan pikiran acak ke Notion secara terstruktur: Task Tracker, Catatan &amp; Pikiran, Weekly Review.",
+ s2:"Mengecek duplikasi dan bentrok jadwal sebelum menulis apa pun.",
+ s3:"Menentukan prioritas dengan matriks Eisenhower dan menyusun time-block harian sesuai jam kerja.",
+ s4:"Rutinitas harian: ringkasan pagi, status sore, review mingguan, plus pengingat deadline 48 jam.",
+ capS:"Tiga kemampuan utama yang bekerja setiap hari.",k1t:"Notion Task Tracker",
+ k1p:"Menyimpan tugas, ide acak, dan evaluasi mingguan ke Notion dengan struktur rapi, dan mengecek duplikasi sebelum mencatat.",
+ k2t:"Google Calendar Time-Block",k2p:"Mendeteksi jadwal bentrok, memakai matriks Eisenhower, lalu menyusun time-block harian sesuai jam kerjamu.",
+ k3p:"Selalu minta konfirmasi sebelum mengubah status tugas, menghapus data, atau mengubah event. Keputusan akhir tetap di tanganmu.",
+ demoT:"Lihat Doula Beraksi",demoS:"Pilih satu skenario dan lihat bagaimana Doula merespons.",simL:"Simulasi",
+ hint:"👇 Klik salah satu skenario di bawah untuk memulai.",b0:"📥 Tugas dadakan",b1:"⚠️ Jadwal bentrok",b2:"☀️ Ringkasan pagi",
+ ctaT:"Tertarik Membangun Karyawan Digital Sendiri?",ctaS:"Lihat proyek-proyek saya atau ajak diskusi lewat GitHub.",ctaB:"Kunjungi GitHub Saya →",
+ thL:["Ganti ke mode terang","Ganti ke mode gelap"]},
+en:{title:"Doula | Personal AI Assistant",h1:"Meet <span>Doula</span>",
+ tag:"A personal AI assistant that logs your tasks, manages your schedule, and guards your priorities through Notion and Google Calendar, so nothing slips through.",
+ try:"Try the Simulation",contact:"Contact Me",psT:"From Chaos to Control",psS:"What often happens without Doula, and how Doula solves it.",
+ c1:"Sudden requests and tasks live only in your head or get lost in chats, so they never reach the tracker.",
+ c2:"Schedules clash and priorities are hard to set when urgent meetings and new requests arrive at once.",
+ c3:"Deadlines slip because there are no reminders, weekly reviews, or clear picture of your workload.",
+ s1:"Logs tasks and random thoughts into Notion in a structured way: Task Tracker, Notes &amp; Thoughts, Weekly Review.",
+ s2:"Checks for duplicates and schedule conflicts before writing anything.",
+ s3:"Sets priorities with the Eisenhower matrix and builds a daily time-block plan within your working hours.",
+ s4:"Daily routine: morning summary, evening status, weekly review, plus 48-hour deadline reminders.",
+ capS:"Three core abilities that work every day.",k1t:"Notion Task Tracker",
+ k1p:"Saves tasks, random ideas, and weekly reviews into Notion with a clean structure, and checks for duplicates before logging.",
+ k2t:"Google Calendar Time-Block",k2p:"Detects schedule conflicts, applies the Eisenhower matrix, then builds a daily time-block plan around your working hours.",
+ k3p:"Always asks for confirmation before changing a task status, deleting data, or modifying an event. The final decision stays with you.",
+ demoT:"See Doula in Action",demoS:"Pick a scenario and see how Doula responds.",simL:"Simulation",
+ hint:"👇 Click a scenario below to get started.",b0:"📥 Sudden task",b1:"⚠️ Schedule conflict",b2:"☀️ Morning summary",
+ ctaT:"Want to Build Your Own Digital Employee?",ctaS:"Check out my projects or start a conversation on GitHub.",ctaB:"Visit My GitHub →",
+ thL:["Switch to light mode","Switch to dark mode"]}};
+const SC={
+id:[{u:"Tolong catat: besok jam 14.00 siapkan materi review pipeline untuk atasan.",b:[
+  "Saya cek dulu Task Tracker, belum ada tugas serupa, jadi tidak ada duplikasi. ✅",
+  "Saya cek juga Google Calendar: besok jam 14.00 kosong, tidak ada bentrok.",
+  "<b>Draf tugas:</b> Siapkan materi review pipeline<br>Deadline: besok 14.00 · Prioritas: <b>Penting &amp; Mendesak</b>"+H("Simpan ke Notion dan buat time-block 10.00-12.00? Balas <b>ya</b> untuk lanjut.")]},
+ {u:"Ada rapat dadakan jam 11.00, padahal saya sudah ada agenda lain.",b:[
+  "Saya periksa Google Calendar: rapat dadakan <b>bentrok</b> dengan blok \"Review Data Quality\" jam 11.00-12.00. ⚠️",
+  "<b>Usulan:</b> pindahkan Review Data Quality ke 14.00-15.00 (kosong). Jam makan siang 12.00-13.00 tetap aman.<br>Prioritas Review Data Quality: Penting, Tidak Mendesak."+H("Saya tidak akan mengubah event apa pun sebelum kamu setuju. Pindahkan sekarang?")]},
+ {u:"pagi",b:[
+  "Selamat pagi! ☀️ Ini ringkasan harimu:",
+  "<b>3 prioritas hari ini</b><br>1. Siapkan materi review pipeline (deadline 14.00)<br>2. Follow-up stakeholder<br>3. Review dokumen teknis<br><br><b>Time-block:</b> 10.00-12.00 fokus materi · 13.00-15.00 rapat · 15.00-17.00 follow-up<br><b>⏰ Deadline 48 jam:</b> 1 tugas mendekati batas waktu."+H("Mau saya buatkan time-block ini di Calendar?")]}],
+en:[{u:"Please log this: tomorrow at 2 PM, prepare the pipeline review material for my manager.",b:[
+  "I checked the Task Tracker first: no similar task, so no duplicates. ✅",
+  "I also checked Google Calendar: tomorrow at 2 PM is free, no conflicts.",
+  "<b>Task draft:</b> Prepare pipeline review material<br>Deadline: tomorrow 14:00 · Priority: <b>Important &amp; Urgent</b>"+H("Save to Notion and create a 10:00-12:00 time-block? Reply <b>yes</b> to continue.")]},
+ {u:"An urgent meeting just came up at 11:00, but I already have another agenda.",b:[
+  "I checked Google Calendar: the urgent meeting <b>conflicts</b> with your \"Data Quality Review\" block at 11:00-12:00. ⚠️",
+  "<b>Suggestion:</b> move Data Quality Review to 14:00-15:00 (free). Lunch at 12:00-13:00 stays protected.<br>Data Quality Review priority: Important, Not Urgent."+H("I won't change any event until you agree. Move it now?")]},
+ {u:"morning",b:[
+  "Good morning! ☀️ Here's your day at a glance:",
+  "<b>3 priorities today</b><br>1. Prepare pipeline review material (due 14:00)<br>2. Follow up with stakeholders<br>3. Review technical documents<br><br><b>Time-block:</b> 10:00-12:00 focus on material · 13:00-15:00 meetings · 15:00-17:00 follow-up<br><b>⏰ 48-hour deadline:</b> 1 task is nearing its deadline."+H("Want me to create these time-blocks in Calendar?")]}]};
+
+const box=document.getElementById("msgs"),btns=document.querySelectorAll(".scen button"),th=document.getElementById("th");
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const store=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}};
+let lang=store("doula-lang")==="en"?"en":"id",theme=store("doula-theme")==="light"?"light":"dark",tok=0;
+
+function setLang(l){
+  lang=l;tok++;store("doula-lang",l);
+  document.documentElement.lang=l;document.title=T[l].title;
+  document.querySelectorAll("[data-i18n]").forEach(e=>e.innerHTML=T[l][e.dataset.i18n]);
+  document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));
+  box.innerHTML=`<div class="hint">${T[l].hint}</div>`;
+  btns.forEach(b=>b.disabled=false);setTheme(theme);
+}
+function setTheme(t){
+  theme=t;store("doula-theme",t);
+  document.documentElement.dataset.theme=t;
+  th.textContent=t==="dark"?"☀️":"🌙";
+  const label=T[lang].thL[t==="dark"?0:1];th.title=label;th.setAttribute("aria-label",label);
+}
 function add(cls,html){
   const d=document.createElement("div");
   d.className="msg "+cls;d.innerHTML=html;box.appendChild(d);
@@ -209,20 +276,23 @@ function typing(){
   box.appendChild(d);box.scrollTop=box.scrollHeight;return d;
 }
 async function run(i){
-  const s=scenarios[i];
+  const s=SC[lang][i],my=++tok;
   btns.forEach(b=>b.disabled=true);
   box.innerHTML="";
-  add("user",s.user);
-  for(const part of s.bot){
-    await sleep(500);
+  add("user",s.u);
+  for(const part of s.b){
+    await sleep(500);if(my!==tok)return;
     const t=typing();
     await sleep(1100);
-    t.remove();
+    t.remove();if(my!==tok)return;
     add("bot",part);
   }
   btns.forEach(b=>b.disabled=false);
 }
 btns.forEach(b=>b.addEventListener("click",()=>run(+b.dataset.s)));
+document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.l)));
+th.addEventListener("click",()=>setTheme(theme==="dark"?"light":"dark"));
+setLang(lang);
 </script>
 </body>
 </html>
